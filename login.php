@@ -13,13 +13,13 @@
                     </div>
                     <hr>
                     <h3 class="fs-base pt-4 pb-2">Or using form below</h3>
-                    <form class="needs-validation" novalidate>
+                    <form class="needs-validation" novalidate method="post" action="login-logic.php">
                         <div class="input-group mb-3"><i class="ci-mail position-absolute top-50 translate-middle-y text-muted fs-base ms-3"></i>
-                            <input class="form-control rounded-start" type="email" placeholder="Email" required>
+                            <input class="form-control rounded-start" name="email" type="email" placeholder="Email" required>
                         </div>
                         <div class="input-group mb-3"><i class="ci-locked position-absolute top-50 translate-middle-y text-muted fs-base ms-3"></i>
                             <div class="password-toggle w-100">
-                                <input class="form-control" type="password" placeholder="Password" required>
+                                <input class="form-control" name="password" type="password" placeholder="Password" required>
                                 <label class="password-toggle-btn" aria-label="Show/hide password">
                                     <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
                                 </label>
@@ -42,7 +42,7 @@
         <div class="col-md-6 pt-4 mt-3 mt-md-0">
             <h2 class="h4 mb-3">No account? Sign up</h2>
             <p class="fs-sm text-muted mb-4">Registration takes less than a minute but gives you full control over your orders.</p>
-            <form class="needs-validation" method="POST" action="login-logic.php" novalidate>
+            <form class="needs-validation" method="POST" action="registration-logic.php" novalidate>
                 <div class="row gx-4 gy-3">
                     <div class="col-sm-6">
                         <label class="form-label" for="reg-fn">First Name</label>

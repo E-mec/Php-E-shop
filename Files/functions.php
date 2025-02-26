@@ -6,6 +6,22 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+function loggedIn()
+{
+    if(isset($_SESSION['user'])){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function alert($type, $message)
+{
+    $_SESSION['alert']['type'] = $type;
+    $_SESSION['alert']['message'] = $message;
+    
+}
+
 function login($email, $password)
 {
     global $conn;

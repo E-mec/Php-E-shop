@@ -1,3 +1,7 @@
+<?php
+require_once('Files/functions.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -279,7 +283,13 @@
                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-heart"></i></div>
                             </a><a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="#signin-modal" data-bs-toggle="modal">
                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
-                                <div class="navbar-tool-text ms-n3"><small>Hello, Sign in</small>My Account</div>
+                                <div class="navbar-tool-text ms-n3">
+                                    <?php if(loggedIn()): ?>
+                                    <small>Hello, <?= $_SESSION['user']['first_name'] ; ?></small>
+                                    <?php else: ?>
+                                    <small>Hello, Sign in</small>
+                                    <?php endif; ?>
+                                    My Account</div>
                             </a>
                             <div class="navbar-tool dropdown ms-3"><a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="shop-cart.html"><span class="navbar-tool-label">4</span><i class="navbar-tool-icon ci-cart"></i></a><a class="navbar-tool-text" href="shop-cart.html"><small>My Cart</small>$265.00</a>
                                 <!-- Cart dropdown-->
@@ -651,3 +661,12 @@
                 </div>
             </div>
         </header>
+
+        <?php if (isset($_SESSION['alert'])): ?>
+        <div class="pt-5 container mx-auto">
+            <div class="alert alert-<?= $_SESSION['alert']['type']?>">
+                <?= $_SESSION['alert']['message']; ?>
+            </div>
+        </div>
+            <?php unset($_SESSION['alert']); ?>
+        <?php endif; ?>
