@@ -1,9 +1,37 @@
 <?php
 
+define('BASEPATH', 'localhost:8080');
+
 $conn = new mysqli('localhost', 'root', '', 'e-shop');
+
+
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+}
+
+function url($path = '/'){
+    return BASEPATH.$path;
+}
+
+function authorized_user()
+{
+    if(!isset($_SESSION['user']))
+    {
+        alert("warning", "Please login");
+        header('Location: login.php');
+
+        die();
+    }
+}
+
+function logout(){
+    if(isset($_SESSION['user']))
+    {
+        unset($_SESSION['user']);
+    }
+
+    header("Location:login.php");
 }
 
 function loggedIn()

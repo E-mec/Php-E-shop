@@ -272,7 +272,7 @@ require_once('Files/functions.php');
             <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
             <div class="navbar-sticky bg-light">
                 <div class="navbar navbar-expand-lg navbar-light">
-                    <div class="container"><a class="navbar-brand d-none d-sm-block flex-shrink-0" href="index-2.html"><img src="img/logo-dark.png" width="142" alt="Cartzilla"></a><a class="navbar-brand d-sm-none flex-shrink-0 me-2" href="index-2.html"><img src="img/logo-icon.png" width="74" alt="Cartzilla"></a>
+                    <div class="container"><a class="navbar-brand d-none d-sm-block flex-shrink-0" href="/"><img src="img/logo-dark.png" width="142" alt="Cartzilla"></a><a class="navbar-brand d-sm-none flex-shrink-0 me-2" href="index-2.html"><img src="img/logo-icon.png" width="74" alt="Cartzilla"></a>
                         <div class="input-group d-none d-lg-flex mx-4">
                             <input class="form-control rounded-end pe-5" type="text" placeholder="Search for products"><i class="ci-search position-absolute top-50 end-0 translate-middle-y text-muted fs-base me-3"></i>
                         </div>
@@ -281,7 +281,12 @@ require_once('Files/functions.php');
                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-menu"></i></div>
                             </a><a class="navbar-tool d-none d-lg-flex" href="account-wishlist.html"><span class="navbar-tool-tooltip">Wishlist</span>
                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-heart"></i></div>
-                            </a><a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="#signin-modal" data-bs-toggle="modal">
+                            </a>
+                            <?php if(loggedIn()): ?>
+                            <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="account-orders.php" >
+                            <?php else: ?>
+                            <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="#signin-modal" data-bs-toggle="modal">
+                            <?php endif; ?>
                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
                                 <div class="navbar-tool-text ms-n3">
                                     <?php if(loggedIn()): ?>
