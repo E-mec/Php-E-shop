@@ -4,13 +4,23 @@ authorized_user();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $_SESSION['form']['value'] = $_POST;
+  
   $imgs = upload_images($_FILES);
+  $data['name'] = $_POST['name'];
+  $data['photo'] = json_encode( $imgs);
+  $data['parent_id'] = 10;
+  
+  if(dbInsert('categories', $data))
+  {
+    alert('success', 'New category added successfully'); 
+    header('Location:admin-categories.php');
+    unset($_SESSION['form']);
+  }else {
+    alert('danger', 'Adding category failed');
+    header('Location:admin-categories.php');
+  }
 
-  echo "<pre>";
-
-  print_r($imgs);
   die();
-
 }
 
 
@@ -78,6 +88,17 @@ require_once 'Files/header.php';
             <?= textInput([
               'name' => 'name',
               'label' => 'Category Name',
+            ]); ?>
+          </div>
+
+          <div class="mb-3 pb-2">
+            <?= selectInput([
+              'name' => 'name',
+              'label' => 'Parent Category',
+            ],[
+              1 => 'One',
+              2 => 'Two',
+              3 => 'Three'
             ]); ?>
           </div>
 

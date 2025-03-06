@@ -12,6 +12,48 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+function dbInsert($table, $data)
+{
+    $sql = "INSERT INTO $table " ;
+
+    $columnNames = "(";
+    $columnValues = "(";
+
+    echo "<pre>";
+
+    $is_first = true;
+    foreach($data as $key => $value)
+    {
+        if ($is_first) {
+            $is_first = false;
+        } else {
+            $columnNames .= ",";
+            $columnValues .= ",";
+        }
+        $columnNames .= $key;
+        // $columnValues .= "'$value'";
+
+        $columnValues .= (gettype($value) == 'string') ? "'$value'" : $value;
+    }
+
+    $columnNames .= ")";
+    $columnValues .= ")";
+
+    $sql .= $columnNames ."VALUES".$columnValues;
+
+    global $conn;
+
+    if ($conn->query($sql)){
+        return true;
+    }else {
+        return false;
+    }
+
+
+    
+    die($sql);
+}
+
 function url($path = '/')
 {
     return BASEPATH . $path;
@@ -101,18 +143,63 @@ function textInput($data)
         }
     }
 
-
-
-
-
     $label = isset($data['label']) ? $data['label'] : $name;
     $value = isset($data['value']) ? $data['value'] : $value;
-
 
     return '
     <label class="form-label text-capitalize" for="unp-product-name">' . $label . '</label>
     <input name="' . $name . '" value="' . $value . '" class="form-control" type="text" id="' . $name . '" placeholder="' . $name . '" ' . $attribute . '>
     ' . $errorMessage;
+}
+
+function selectInput($data, $options)
+{
+    $value = '';
+    $error = '';
+    $errorMessage = '';
+    $name = isset($data['name']) ? $data['name'] : '';
+    $attribute = isset($data['attribute']) ? $data['attribute'] : '';
+
+
+    if (isset($_SESSION['form'])) {
+        if (isset($_SESSION['form']['value'])) {
+            if (isset($_SESSION['form']['value'][$name])) {
+                $value = $_SESSION['form']['value'][$name];
+            }
+        }
+    }
+
+    if (isset($_SESSION['form'])) {
+        if (isset($_SESSION['form']['error'])) {
+            if (isset($_SESSION['form']['error'][$name])) {
+                $value = $_SESSION['form']['error'][$name];
+                $errorMessage = '
+                    <div class="form-text text-danger">' . $error . '</div>
+            ';
+            }
+        }
+    }
+
+    $label = isset($data['label']) ? $data['label'] : $name;
+    $value = isset($data['value']) ? $data['value'] : $value;
+
+    $selectOptions = "";
+
+    foreach ($options as $key => $value)
+    {
+        $selected = "";
+        if($key == $value)
+        {
+            $selected = 'selected';
+        }
+
+        $selectOptions .= '<option value="' . $key . '">'. $value .'</option>';
+    }
+
+    $selectTag = ' <select name="'.$name.'" class="form-control">'. $selectOptions . '</select>';
+        
+    return '
+    <label class="form-label text-capitalize" for="unp-product-name">' . $label . '</label>' . $selectTag . $errorMessage;
 }
 
 function upload_images($files)
