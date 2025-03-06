@@ -1,14 +1,31 @@
 <?php
 require_once('Files/functions.php');
+
 authorized_user();
+
+$rows = dbSelect('categories');
+$categories = [];
+$categories[0] = "No parent category";
+
+foreach($rows as $row)
+{
+  $categories[$row['id']] = $row['name'];
+}
+
+// echo "<pre>";
+// print_r($categories);
+// die();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $_SESSION['form']['value'] = $_POST;
   
   $imgs = upload_images($_FILES);
   $data['name'] = $_POST['name'];
+  $data['description'] = $_POST['description'];
   $data['photo'] = json_encode( $imgs);
-  $data['parent_id'] = 10;
+  $data['parent_id'] = $_POST['parent_id'];
+
+
   
   if(dbInsert('categories', $data))
   {
@@ -93,13 +110,9 @@ require_once 'Files/header.php';
 
           <div class="mb-3 pb-2">
             <?= selectInput([
-              'name' => 'name',
+              'name' => 'parent_id',
               'label' => 'Parent Category',
-            ],[
-              1 => 'One',
-              2 => 'Two',
-              3 => 'Three'
-            ]); ?>
+            ],$categories); ?>
           </div>
 
           <div class="file-drop-area mb-3">
@@ -107,6 +120,13 @@ require_once 'Files/header.php';
             <input class="file-drop-input" name="photo" type="file" accept=".jpg , .jpeg ,.png">
             <button class="file-drop-btn btn btn-primary btn-sm mb-2" type="button">Or select file</button>
             <div class="form-text">1000 x 800px ideal size for hi-res displays</div>
+          </div>
+
+          <div class="mb-3 pb-2">
+            <div class="form-group">
+              <label for="description">Category Description</label>
+              <textarea class="form-control" name="description" id=""></textarea>
+            </div>
           </div>
           <button class="btn btn-primary d-block w-100" type="submit"><i class="ci-cloud-upload fs-lg me-2"></i>Upload Product</button>
         </form>

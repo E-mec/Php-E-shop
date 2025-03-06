@@ -14,7 +14,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 function dbInsert($table, $data)
 {
-    $sql = "INSERT INTO $table " ;
+    $sql = "INSERT INTO $table ";
 
     $columnNames = "(";
     $columnValues = "(";
@@ -22,8 +22,7 @@ function dbInsert($table, $data)
     echo "<pre>";
 
     $is_first = true;
-    foreach($data as $key => $value)
-    {
+    foreach ($data as $key => $value) {
         if ($is_first) {
             $is_first = false;
         } else {
@@ -39,19 +38,43 @@ function dbInsert($table, $data)
     $columnNames .= ")";
     $columnValues .= ")";
 
-    $sql .= $columnNames ."VALUES".$columnValues;
+    $sql .= $columnNames . "VALUES" . $columnValues;
 
     global $conn;
 
-    if ($conn->query($sql)){
+    if ($conn->query($sql)) {
         return true;
-    }else {
+    } else {
         return false;
     }
+}
+
+function dbSelect($table, $condition = null)
+{
+    $sql = "SELECT * FROM $table ";
+
+    if ($condition !== null) {
+        $sql .= " WHERE $condition ";
+    }
+
+    global $conn;
+
+    $res = $conn->query($sql);
+
+    $rows = [];
+
+    while($row = $res->fetch_assoc()) {
+        $rows[] = $row;
+    }
+
+    return $rows;
 
 
-    
-    die($sql);
+    // if ($conn->query($sql)->fetch_assoc()) {
+    //     return true;
+    // } else {
+    //     return false;
+    // }
 }
 
 function url($path = '/')
@@ -185,19 +208,17 @@ function selectInput($data, $options)
 
     $selectOptions = "";
 
-    foreach ($options as $key => $value)
-    {
+    foreach ($options as $key => $value) {
         $selected = "";
-        if($key == $value)
-        {
+        if ($key == $value) {
             $selected = 'selected';
         }
 
-        $selectOptions .= '<option value="' . $key . '">'. $value .'</option>';
+        $selectOptions .= '<option value="' . $key . '">' . $value . '</option>';
     }
 
-    $selectTag = ' <select name="'.$name.'" class="form-control">'. $selectOptions . '</select>';
-        
+    $selectTag = ' <select name="' . $name . '" class="form-control">' . $selectOptions . '</select>';
+
     return '
     <label class="form-label text-capitalize" for="unp-product-name">' . $label . '</label>' . $selectTag . $errorMessage;
 }
@@ -275,31 +296,30 @@ function create_thumbnail($source, $target)
     $width = 200;
     $height = 200;
 
-    if(!$image->resize($width, $height, ZEBRA_IMAGE_CROP_CENTER))
-    {
+    if (!$image->resize($width, $height, ZEBRA_IMAGE_CROP_CENTER)) {
         return $image->source_path;
     } else {
         return $image->target_path;
     }
-    ini_set('memory_limit', '-1');
+    // ini_set('memory_limit', '-1');
 }
 
 function get_jpeg_quality($_size)
 {
-    $size = ($_size)/1000000;
+    $size = ($_size) / 1000000;
     $qt = 50;
 
-    if ($size > 5){
+    if ($size > 5) {
         $qt = 10;
-    } else if ($size > 4 ) {
+    } else if ($size > 4) {
         $qt = 13;
     } else if ($size > 2) {
         $qt = 15;
-    } else if ($size > 1 ) {
+    } else if ($size > 1) {
         $qt = 17;
-    } else if ($size > 0.8 ) {
+    } else if ($size > 0.8) {
         $qt = 50;
-    } else if ($size > 0.5 ) {
+    } else if ($size > 0.5) {
         $qt = 80;
     } else {
         $qt = 90;
