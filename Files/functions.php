@@ -63,7 +63,7 @@ function dbSelect($table, $condition = null)
 
     $rows = [];
 
-    while($row = $res->fetch_assoc()) {
+    while ($row = $res->fetch_assoc()) {
         $rows[] = $row;
     }
 
@@ -75,6 +75,33 @@ function dbSelect($table, $condition = null)
     // } else {
     //     return false;
     // }
+}
+
+function get_thumbnail($json)
+{
+
+    $img = "assets/no_image.jpg";
+
+    if ($json == null) {
+        return $img;
+    }
+
+    if (strlen($json) < 4) {
+        return $img;
+    }
+
+    $object = json_decode($json);
+
+    if(empty($object)){
+        return $img;
+    }
+
+    if(!isset($object[0]->thumbnail)){
+
+        return $img;
+    }
+
+    return $object[0]->thumbnail;
 }
 
 function url($path = '/')
@@ -171,7 +198,7 @@ function textInput($data)
 
     return '
     <label class="form-label text-capitalize" for="unp-product-name">' . $label . '</label>
-    <input name="' . $name . '" value="' . $value . '" class="form-control" type="text" id="' . $name . '" placeholder="' . $name . '" ' . $attribute . '>
+    <input name="' . $name . '" value="' . $value . '" class="form-control" type="text" id="' . $name . '" placeholder="' . $label . '" ' . $attribute . '>
     ' . $errorMessage;
 }
 
@@ -207,6 +234,7 @@ function selectInput($data, $options)
     $value = isset($data['value']) ? $data['value'] : $value;
 
     $selectOptions = "";
+    $selected = "";
 
     foreach ($options as $key => $value) {
         $selected = "";
@@ -217,7 +245,7 @@ function selectInput($data, $options)
         $selectOptions .= '<option value="' . $key . '">' . $value . '</option>';
     }
 
-    $selectTag = ' <select name="' . $name . '" class="form-control">' . $selectOptions . '</select>';
+    $selectTag = ' <select name="' . $name . '"' . $selected . ' class="form-control">' . $selectOptions . '</select>';
 
     return '
     <label class="form-label text-capitalize" for="unp-product-name">' . $label . '</label>' . $selectTag . $errorMessage;

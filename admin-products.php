@@ -2,10 +2,14 @@
 require_once('Files/functions.php');
 authorized_user();
 
-$categories = dbSelect('categories', ' 1 ORDER BY id DESC ');
+$products = dbSelect('products',  ' 1 ORDER BY id DESC' );
+
+$p = $products[0];
+
+$pp = get_thumbnail($p['photos']);
 
 // echo "<pre>";
-// print_r($rows);
+// print_r($pp);
 // die();
 
 require_once 'Files/header.php';
@@ -26,7 +30,7 @@ require_once 'Files/header.php';
             </nav>
         </div>
         <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-            <h1 class="h3 text-light mb-0">Product Categories</h1>
+            <h1 class="h3 text-light mb-0">Products</h1>
         </div>
     </div>
 </div>
@@ -56,7 +60,7 @@ require_once 'Files/header.php';
                 <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
                     <!-- Title-->
                     <div class="d-sm-flex flex-wrap justify-content-between align-items-center border-bottom">
-                        <h2 class="h3 py-2 me-2 text-center text-sm-start">Product Categories <span class="badge bg-faded-accent fs-sm text-body align-middle ms-2">5</span></h2>
+                        <h2 class="h3 py-2 me-2 text-center text-sm-start">Products <span class="badge bg-faded-accent fs-sm text-body align-middle ms-2">5</span></h2>
                         <div class="py-2">
                             <div class="d-flex flex-nowrap align-items-center pb-3">
                                 <label class="form-label fw-normal text-nowrap mb-0 me-2" for="sorting">Sort by:</label>
@@ -72,14 +76,17 @@ require_once 'Files/header.php';
                         </div>
                     </div>
 
-                    <?php foreach($categories as $category): ?>
+                    <?php foreach($products as $product): ?>
                     <!-- Product-->
-                    <div class="d-block d-sm-flex align-items-center py-4 border-bottom"><a class="d-block mb-3 mb-sm-0 me-sm-4 ms-sm-0 mx-auto" href="marketplace-single.html" style="width: 12.5rem;"><img class="rounded-3" src="img/marketplace/products/th08.jpg" alt="Product"></a>
+                    <div class="d-block d-sm-flex align-items-center py-4 border-bottom">
+                        <a class="d-block mb-3 mb-sm-0 me-sm-4 ms-sm-0 mx-auto" href="marketplace-single.html" style="width: 12.5rem;">
+                        <img class="rounded-3" src="<?= get_thumbnail($product['photos']) ;?>" alt="Product">
+                    </a>
                         <div class="text-center text-sm-start">
                             <h3 class="h6 product-title mb-2"><a href="marketplace-single.html">
-                                <?= $category['name'] ?>
+                                <?= $product['name'] ?>
                             </a></h3>
-                            <div class="d-inline-block text-accent">$18.<small>00</small></div>
+                            <div class="d-inline-block text-accent">$<?= $product['selling_price'] ?>.<small>00</small></div>
                             <div class="d-inline-block text-muted fs-ms border-start ms-2 ps-2">Sales: <span class="fw-medium">26</span></div>
                             <div class="d-inline-block text-muted fs-ms border-start ms-2 ps-2">Earnings: <span class="fw-medium">$327.<small>60</small></span></div>
                             <div class="d-flex justify-content-center justify-content-sm-start pt-3">

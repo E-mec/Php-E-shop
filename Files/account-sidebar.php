@@ -23,6 +23,16 @@
                     <a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="admin-categories-add.php"><i class="ci-bag opacity-60 me-2"></i>Add Category
                     </a>
                 </li>
+
+                <li class="border-bottom mb-0">
+                    <a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="admin-products.php"><i class="ci-bag opacity-60 me-2"></i> Products
+                    </a>
+                </li>
+
+                <li class="border-bottom mb-0">
+                    <a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="admin-product-add.php"><i class="ci-bag opacity-60 me-2"></i>Add Product
+                    </a>
+                </li>
                 
             </ul>
         </div>
