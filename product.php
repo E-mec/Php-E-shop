@@ -1,11 +1,11 @@
 <?php
 
 $id = 0;
-if(isset($_GET['id'])){
+if (isset($_GET['id'])) {
     $id = ((int)$_GET['id']);
 }
 
-if($id < 1){
+if ($id < 1) {
     die('Id Not Found!');
 }
 
@@ -15,15 +15,20 @@ $data = getProduct($id);
 $pro = $data['pro'];
 $cat = $data['cat'];
 
-if($pro == null)
-{
+if ($pro == null) {
     die('Product Not Found');
 }
 
-if($cat == null)
-{
+if ($cat == null) {
     die('Category Not Found');
 }
+
+$images = getProductImages($pro['photos']);
+
+
+
+
+
 ?>
 
 
@@ -34,20 +39,21 @@ if($cat == null)
         <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                    <li class="breadcrumb-item"><a class="text-nowrap" href="index-2.html"><i class="ci-home"></i>Home</a></li>
-                    <li class="breadcrumb-item text-nowrap"><a href="#">Shop</a>
+                    <li class="breadcrumb-item"><a class="text-nowrap" href="/l"><i class="ci-home"></i>Home</a></li>
+                    <li class="breadcrumb-item text-nowrap"><a href="<?= BASEPATH ?>/shop.php">Shop</a>
                     </li>
-                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Product Page v.1</li>
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page"><?= $pro['name'] ?></li>
                 </ol>
             </nav>
         </div>
         <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-            <h1 class="h3 text-light mb-0">Sports Hooded Sweatshirt</h1>
+            <h1 class="h3 text-light mb-0"><?= $pro['name'] ?></h1>
         </div>
     </div>
 </div>
 <div class="container">
     <!-- Gallery + details-->
+
     <div class="bg-light shadow-lg rounded-3 px-4 py-3 mb-5">
         <div class="px-lg-3">
             <div class="row">
@@ -55,22 +61,30 @@ if($cat == null)
                 <div class="col-lg-7 pe-lg-0 pt-lg-4">
                     <div class="product-gallery">
                         <div class="product-gallery-preview order-sm-2">
-                            <div class="product-gallery-preview-item active" id="first"><img class="image-zoom" src="img/shop/single/gallery/01.jpg" data-zoom="img/shop/single/gallery/01.jpg" alt="Product image">
+                        <?php foreach ($images as $key => $value): ?>
+                            <div class="product-gallery-preview-item active" id="pro-<?= $key ?>">
+                                <img class="image-zoom" src="<?= $value->thumbnail ?>" data-zoom="<?= $value->src ?>" alt="Product image">
                                 <div class="image-zoom-pane"></div>
                             </div>
-                            <div class="product-gallery-preview-item" id="second"><img class="image-zoom" src="img/shop/single/gallery/02.jpg" data-zoom="img/shop/single/gallery/02.jpg" alt="Product image">
-                                <div class="image-zoom-pane"></div>
-                            </div>
-                            <div class="product-gallery-preview-item" id="third"><img class="image-zoom" src="img/shop/single/gallery/03.jpg" data-zoom="img/shop/single/gallery/03.jpg" alt="Product image">
-                                <div class="image-zoom-pane"></div>
-                            </div>
-                            <div class="product-gallery-preview-item" id="fourth"><img class="image-zoom" src="img/shop/single/gallery/04.jpg" data-zoom="img/shop/single/gallery/04.jpg" alt="Product image">
-                                <div class="image-zoom-pane"></div>
-                            </div>
+                            <?php endforeach ?>
+
                         </div>
-                        <div class="product-gallery-thumblist order-sm-1"><a class="product-gallery-thumblist-item active" href="#first"><img src="img/shop/single/gallery/th01.jpg" alt="Product thumb"></a><a class="product-gallery-thumblist-item" href="#second"><img src="img/shop/single/gallery/th02.jpg" alt="Product thumb"></a><a class="product-gallery-thumblist-item" href="#third"><img src="img/shop/single/gallery/th03.jpg" alt="Product thumb"></a><a class="product-gallery-thumblist-item" href="#fourth"><img src="img/shop/single/gallery/th04.jpg" alt="Product thumb"></a><a class="product-gallery-thumblist-item video-item" href="https://www.youtube.com/watch?v=1vrXpMLLK14">
+                        <div class="product-gallery-thumblist order-sm-1">
+                        <?php
+                            $active = 'active';
+                            foreach ($images as $key => $value): ?>
+                            <a class="product-gallery-thumblist-item <?= $active ?>" href="#pro-<?= $key ?>">
+                                <img src="<?= $value->thumbnail ?>" alt="Product thumb">
+                            </a>
+
+                        <?php
+                                $active = '';
+                                endforeach ?>
+                            
+                            <a class="product-gallery-thumblist-item video-item" href="https://www.youtube.com/watch?v=1vrXpMLLK14">
                                 <div class="product-gallery-thumblist-item-text"><i class="ci-video"></i>Video</div>
-                            </a></div>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!-- Product details-->
@@ -212,6 +226,8 @@ if($cat == null)
             </div>
         </div>
     </div>
+
+
     <!-- Product description section 1-->
     <div class="row align-items-center py-md-3">
         <div class="col-lg-5 col-md-6 offset-lg-1 order-md-2"><img class="d-block rounded-3" src="img/shop/single/prod-img.jpg" alt="Image"></div>

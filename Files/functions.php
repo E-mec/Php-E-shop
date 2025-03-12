@@ -94,6 +94,31 @@ function dbSelect($table, $condition = null)
     // }
 }
 
+function getProductImages($json)
+{
+
+    $img['src'] = "assets/no_image.jpg";
+    $img['thumbnail'] = "assets/no_image.jpg";
+
+    $photos[] = $img;
+
+    if ($json == null) {
+        return $photos;
+    }
+
+    if (strlen($json) < 4) {
+        return $photos;
+    }
+
+    $object = json_decode($json);
+
+    if (empty($object)) {
+        return $photos;
+    }
+
+    return $object;
+}
+
 function get_thumbnail($json)
 {
 
