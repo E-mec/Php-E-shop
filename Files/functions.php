@@ -36,7 +36,7 @@ function dbInsert($table, $data)
     $columnNames = "(";
     $columnValues = "(";
 
-    echo "<pre>";
+    global $conn;
 
     $is_first = true;
     foreach ($data as $key => $value) {
@@ -47,21 +47,30 @@ function dbInsert($table, $data)
             $columnValues .= ",";
         }
         $columnNames .= $key;
+        $gettype = gettype($value);
+
+        if($gettype == 'string'){
+            $value = $conn->real_escape_string($value);
+            $columnValues .= "'$value'";
+        }else{
+            $value = $conn->real_escape_string($value);
+            $columnValues .=  $value;
+        }
         // $columnValues .= "'$value'";
 
-        $columnValues .= (gettype($value) == 'string') ? "'$value'" : $value;
+        // $columnValues .= (gettype($value) == 'string') ? "'$value'" : $value;
     }
 
     $columnNames .= ")";
     $columnValues .= ")";
 
     $sql .= $columnNames . "VALUES" . $columnValues;
-
-    global $conn;
+    
 
     if ($conn->query($sql)) {
         return true;
     } else {
+        
         return false;
     }
 }
@@ -94,6 +103,46 @@ function dbSelect($table, $condition = null)
     // }
 }
 
+function productFaker()
+{
+
+    $names = [
+        'Lee Women\'s Ultra Lux Comfort with Flex Motion Straight Leg Jean',
+        'Nine West Women\'s High Rise Perfect Skinny Jean',
+        'Wrangler Women\'s Willow Mid Rise Boot Cut Ultimate Riding Jeans',
+        'adidas Men\'s Daily 3.0 Sneaker',
+        'PUMA Mens Tazon 6 Cross Trainer',
+        'Nike Men\'s Air Zoom Pegasus 38 Running Shoe'
+    ];
+
+    $description = 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque, consequatur molestiae praesentium numquam cumque, beatae adipisci cum, eum doloremque iure velit earum. Eligendi adipisci mollitia corporis commodi sit iste sunt.';
+
+    $photos = [];
+
+    for ($i=1; $i < 20 ; $i++) { 
+        $pic['thumbnail'] = 'uploads/'.$i.'.jpg'; 
+        $pic['src'] = 'uploads/'.$i.'.jpg'; 
+        $photos[] = $pic;
+    }
+
+    $category = [8,9,11];
+
+    for ($i=0; $i < 20; $i++) { 
+        shuffle($names);
+        shuffle($photos);
+        shuffle($category);
+
+        $pro['name'] = $names[1];
+        $pro['buying_price'] = rand(1000, 5000);
+        $pro['selling_price'] = rand(1000, 5000);
+        $pro['description'] = $description;
+        $pro['photos'] = json_encode($photos);
+        $pro['category_id'] = $category[0];
+        $pro['user_id'] = 2;
+        dbInsert('products', $pro);
+    }
+}
+
 function getProductImages($json)
 {
 
@@ -110,7 +159,18 @@ function getProductImages($json)
         return $photos;
     }
 
-    $object = json_decode($json);
+    $_objects = json_decode($json);
+    $object = [];
+    $i = 0;
+
+    foreach($_objects as $key => $value){
+        if($i > 4)
+        {
+            break;
+        }
+        $i++;
+        $object[] = $value;
+    }
 
     if (empty($object)) {
         return $photos;

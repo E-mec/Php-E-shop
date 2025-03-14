@@ -1,4 +1,8 @@
-<?php require_once'Files/header.php' ?>
+<?php 
+require_once'Files/functions.php'; 
+// productFaker();
+require_once'Files/header.php'; 
+?>
 
 
 

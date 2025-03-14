@@ -115,22 +115,23 @@ $images = getProductImages($pro['photos']);
                             </div>
                             <div class="product-badge product-available mt-n1"><i class="ci-security-check"></i>Product available</div>
                         </div>
-                        <form class="mb-grid-gutter" method="post">
+                        <form action="addToCart.php" class="mb-grid-gutter" method="post">
+                            <input type="hidden" name="id" value="<?= $id ?>">
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between align-items-center pb-1">
                                     <label class="form-label" for="product-size">Size:</label><a class="nav-link-style fs-sm" href="#size-chart" data-bs-toggle="modal"><i class="ci-ruler lead align-middle me-1 mt-n1"></i>Size guide</a>
                                 </div>
-                                <select class="form-select" required id="product-size">
+                                <!-- <select class="form-select" required id="product-size">
                                     <option value="">Select size</option>
                                     <option value="xs">XS</option>
                                     <option value="s">S</option>
                                     <option value="m">M</option>
                                     <option value="l">L</option>
                                     <option value="xl">XL</option>
-                                </select>
+                                </select> -->
                             </div>
                             <div class="mb-3 d-flex align-items-center">
-                                <select class="form-select me-3" style="width: 5rem;">
+                                <select class="form-select me-3" name="quantity" style="width: 5rem;">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
