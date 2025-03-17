@@ -324,7 +324,7 @@ if (isset($_SESSION['cart'])) {
                                         My Account
                                     </div>
                                     </a>
-                                    <div class="navbar-tool dropdown ms-3"><a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="shop-cart.html"><span class="navbar-tool-label"><?= $cartCount ?></span><i class="navbar-tool-icon ci-cart"></i></a><a class="navbar-tool-text" href="shop-cart.html"><small>My Cart</small>$<?= $cartTotal ?>.00</a>
+                                    <div class="navbar-tool dropdown ms-3"><a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="cart.php"><span class="navbar-tool-label"><?= $cartCount ?></span><i class="navbar-tool-icon ci-cart"></i></a><a class="navbar-tool-text" href="cart.php"><small>My Cart</small>$<?= $cartTotal ?>.00</a>
                                         <!-- Cart dropdown-->
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;">
@@ -361,8 +361,8 @@ if (isset($_SESSION['cart'])) {
 
                                                 </div>
                                                 <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
-                                                    <div class="fs-sm me-2 py-2"><span class="text-muted">Subtotal:</span><span class="text-accent fs-base ms-1">$<?= $cartTotal ?>.<small>00</small></span></div><a class="btn btn-outline-secondary btn-sm" href="shop-cart.html">Expand cart<i class="ci-arrow-right ms-1 me-n1"></i></a>
-                                                </div><a class="btn btn-primary btn-sm d-block w-100" href="checkout-details.html"><i class="ci-card me-2 fs-base align-middle"></i>Checkout</a>
+                                                    <div class="fs-sm me-2 py-2"><span class="text-muted">Subtotal:</span><span class="text-accent fs-base ms-1">$<?= $cartTotal ?>.<small>00</small></span></div><a class="btn btn-outline-secondary btn-sm" href="cart.php">Expand cart<i class="ci-arrow-right ms-1 me-n1"></i></a>
+                                                </div><a class="btn btn-primary btn-sm d-block w-100" href="checkout.php"><i class="ci-card me-2 fs-base align-middle"></i>Checkout</a>
                                             </div>
                                         </div>
                                     </div>
