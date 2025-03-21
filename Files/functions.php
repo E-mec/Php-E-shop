@@ -300,7 +300,7 @@ function textInput($data)
 
     return '
     <label class="form-label text-capitalize" for="unp-product-name">' . $label . '</label>
-    <input name="' . $name . '" value="' . $value . '" class="form-control" type="text" id="' . $name . '" placeholder="' . $label . '" ' . $attribute . '>
+    <input name="' . $name . '" value="' . $value . '" class="form-control text-capitalize" type="text" id="' . $name . '" placeholder="' . $label . '" ' . $attribute . '>
     ' . $errorMessage;
 }
 
